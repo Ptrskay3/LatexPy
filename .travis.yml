@@ -21,7 +21,7 @@ install:
 
 before_script:
   # stop upon syntax errors or undefined names
-  - flake8 pysprint/ --count --select=E9,F63,F72,F82 --show-source --statistics
+  - flake8 latexpy/ --count --select=E9,F63,F72,F82 --show-source --statistics
 
 script:
   - cd latexpy/tests
