@@ -1,0 +1,29 @@
+os: linux
+
+dist: xenial
+
+language: python
+
+python:
+    - 3.6
+    - 3.7
+    - 3.8
+
+before_install:
+  - "export PYTHONPATH=$PYTHONPATH:$(pwd)"
+  - python -m pip install --upgrade setuptools
+
+
+install:
+  - python -m pip install --upgrade pip
+  - pip install codecov coverage flake8 pytest
+  - pip list
+
+before_script:
+  # stop upon syntax errors or undefined names
+  - flake8 pysprint/ --count --select=E9,F63,F72,F82 --show-source --statistics
+
+script:
+  - cd latexpy/tests
+  - pytest
+  
