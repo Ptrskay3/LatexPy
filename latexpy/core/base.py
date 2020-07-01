@@ -14,11 +14,30 @@ class AbstractElement(Iterable, abc.ABC):
         """
         pass
 
-
-    def add(self, children: Union[AbstractElement, _iterator]) -> None:
+    @abc.abstractmethod
+    def _remove(self, child: AbstractElement) -> None:
         """
         """
         pass
+
+
+    def add(self, children: Union[AbstractElement, _iterator]) -> None:
+        if isinstance(children, AbstractElement):
+            self._add(children)
+        elif isinstance(children, Iterable):
+            for child in children:
+                self._add(child)
+        else:
+            raise TypeError
+
+    def remove(self, children: Union[AbstractElement, _iterator]) -> None:
+        if isinstance(children, AbstractElement):
+            self._remove(children)
+        elif isinstance(children, Iterable):
+            for child in children:
+                self._remove(child)
+        else:
+            raise TypeError
 
     @abc.abstractmethod
     def accept(self, visitor: AbstractVisitor) -> None:

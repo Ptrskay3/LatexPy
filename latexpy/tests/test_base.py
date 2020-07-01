@@ -25,6 +25,9 @@ def test_abstractelement():
         def _add(self, child):
             pass
 
+        def _remove(self, child):
+            pass
+
         def accept(self, visitor):
             pass
 

@@ -16,3 +16,9 @@ def test_tex_add():
     f._add(h)
 
     assert f._children == [g, h]
+
+def test_tex_property():
+    f = Tex()
+    f._children = [1, 2]
+    assert f.children == [1, 2]
+
