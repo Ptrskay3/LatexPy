@@ -13,7 +13,7 @@ class Tex(AbstractElement):
 
     @require_type(1, AbstractElement)
     def _add(self, child: AbstractElement) -> None:
-        pass
+        self._children.append(child)
 
     def __iter__(self):
         return self
