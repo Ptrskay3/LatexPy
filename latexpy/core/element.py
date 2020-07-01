@@ -3,21 +3,25 @@ from typing import Union, Callable
 from latexpy.core.base import AbstractElement
 from latexpy.util.decorator import require_type
 
+
 class Tex(AbstractElement):
     """
     """
+
     def __init__(self):
         super().__init__()
         self._children = []
-
 
     @require_type(1, AbstractElement)
     def _add(self, child: AbstractElement) -> None:
         self._children.append(child)
 
+    def _remove(self, child: AbstractElement) -> None:
+        self._children.remove(child)
+
     def __iter__(self):
         return self
-    
+
     def accept(self, visitor):
         pass
 
@@ -27,13 +31,12 @@ class Tex(AbstractElement):
     @property
     def children(self):
         return self._children
-    
 
 
 class CallableElement(Tex):
 
-    _name = ''
-    
+    _name = ""
+
     def __init__(self):
         super().__init__()
 
@@ -41,9 +44,11 @@ class CallableElement(Tex):
     def name(self):
         return self._name
 
+
 class Environment(CallableElement):
     def __init__(self):
         super().__init__()
+
 
 class Function(CallableElement):
     def __init__(self):
@@ -51,10 +56,9 @@ class Function(CallableElement):
 
 
 class Package(Function):
-    _name = 'usepackage'
+    _name = "usepackage"
 
 
 class PlainText(Tex):
     def __init__(self):
         super().__init__()
-

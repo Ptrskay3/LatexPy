@@ -12,6 +12,7 @@ __pycache__/
 *.log
 main.tex
 *.pdf
+git_script.py
 
 # Distribution / packaging
 .Python

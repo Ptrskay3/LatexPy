@@ -2,12 +2,13 @@ import pytest
 
 from latexpy.core.element import Tex, CallableElement
 
+
 def test_tex_add():
 
     f = Tex()
     g = Tex()
     h = CallableElement()
-    
+
     f._add(g)
 
     with pytest.raises(TypeError):

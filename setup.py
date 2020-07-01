@@ -13,11 +13,10 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 
-
 MAJOR = 0
 MINOR = 0
 MICRO = 1
-VERSION = f'{MAJOR}.{MINOR}.{MICRO}'
+VERSION = f"{MAJOR}.{MINOR}.{MICRO}"
 
 setup(
     name="LatexPy",
@@ -34,8 +33,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Education",
-        "Intended Audience :: Science/Research",     
+        "Intended Audience :: Science/Research",
     ],
-    install_requires=[]
-
+    install_requires=[],
 )
