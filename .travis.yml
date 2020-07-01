@@ -28,3 +28,5 @@ script:
   - cd latexpy/tests
   - pytest
   
+after_success:
+  - codecov

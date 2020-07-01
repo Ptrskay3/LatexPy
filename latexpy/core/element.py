@@ -54,7 +54,6 @@ class Package(Function):
     _name = 'usepackage'
 
 
-
 class PlainText(Tex):
     def __init__(self):
         super().__init__()
