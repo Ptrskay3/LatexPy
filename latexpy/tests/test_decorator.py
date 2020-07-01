@@ -53,6 +53,24 @@ def test_require_type_6():
     with pytest.raises(IndexError):
         func()
 
+def test_require_type_7():
+    
+    @require_type(4.5, float)
+    def func(x, y):
+        return
+
+    with pytest.raises(TypeError):
+        func(1, 2)
+
+def test_require_type_8():
+    
+    @require_type('x', int)
+    def func(x, y, z):
+        return
+
+    func(x=1, y=4, z=6)
+
+
 # -------------------------------------
 # def test_require_type_7():
     
@@ -64,3 +82,12 @@ def test_require_type_6():
 
 # -------------------------------------
 
+# def test_require_type_8():
+    
+#     @require_type('x', int)
+#     def func(x, y, z):
+#         return
+
+#
+#     func(1, 4, 6)
+# -------------------------------------
