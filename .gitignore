@@ -6,6 +6,13 @@ __pycache__/
 # C extensions
 *.so
 
+# tex files
+*.aux
+*.gz
+*.log
+main.tex
+*.pdf
+
 # Distribution / packaging
 .Python
 build/
