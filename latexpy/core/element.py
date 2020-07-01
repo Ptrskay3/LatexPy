@@ -8,6 +8,7 @@ class Tex(AbstractElement):
     """
     def __init__(self):
         super().__init__()
+        self._children = []
 
 
     @require_type(1, AbstractElement)
@@ -16,6 +17,17 @@ class Tex(AbstractElement):
 
     def __iter__(self):
         return self
+    
+    def accept(self, visitor):
+        pass
+
+    def children_iterator(self):
+        return self.children
+
+    @property
+    def children(self):
+        return self._children
+    
 
 
 class CallableElement(Tex):
@@ -43,13 +55,6 @@ class Package(Function):
 
 
 
-
-
-
 class PlainText(Tex):
     def __init__(self):
         super().__init__()
-
-p = Package()
-
-print(p.name)

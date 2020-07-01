@@ -21,7 +21,10 @@ def get_param(f, arg: Union[int, str], *args, **kwargs) -> Any:
         if N >= arg:
             return args[arg]
         else:
-            return kwargs.get(spec.args[arg])
+            try:
+                return kwargs.get(spec.args[arg])
+            except IndexError:
+                raise IndexError('Argument number out of range.')
     elif isinstance(arg, str):
         return kwargs.get(arg)
     else:
