@@ -26,7 +26,8 @@ before_script:
 
 script:
   - cd latexpy/tests
-  - pytest
+  - coverage run --source=latexpy -m pytest
+  - coverage report -m
   
 after_success:
   - codecov
