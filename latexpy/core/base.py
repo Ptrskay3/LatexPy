@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import abc
 from collections.abc import Iterable
-from typing import Union, Iterable, Iterator as _iterator
+from typing import Union, Iterator, Iterable as _iterable
 
 
 class AbstractElement(Iterable, abc.ABC):
@@ -15,7 +15,7 @@ class AbstractElement(Iterable, abc.ABC):
         """
         pass
 
-    def add(self, children: Union[AbstractElement, _iterator]) -> None:
+    def add(self, children: Union[AbstractElement, Iterator]) -> None:
         """
         """
         pass
@@ -27,7 +27,7 @@ class AbstractElement(Iterable, abc.ABC):
         pass
 
     @abc.abstractmethod
-    def children_iterator(self) -> Iterable:
+    def children_iterator(self) -> _iterable:
         """
         """
         pass

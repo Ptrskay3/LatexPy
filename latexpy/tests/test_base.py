@@ -9,7 +9,7 @@ def test_baseclass(inherit_from):
         pass
 
     with pytest.raises(TypeError):
-        fail = FailClass()
+        FailClass()
 
 
 def test_abstractvisitor():
@@ -17,7 +17,7 @@ def test_abstractvisitor():
         def visit(self, element):
             pass
 
-    working = WorkingClass()
+    WorkingClass()
 
 
 def test_abstractelement():
@@ -34,7 +34,7 @@ def test_abstractelement():
         def __iter__(self):
             pass
 
-    working = WorkingClass()
+    WorkingClass()
 
 
 def test_abstractelement_add():

@@ -1,4 +1,4 @@
-from typing import Union, Callable, Type
+from typing import Type
 
 from latexpy.core.base import AbstractElement
 from latexpy.util.decorator import require_type
@@ -19,7 +19,7 @@ class Tex(AbstractElement):
         self._children.remove(child)
 
     def __iter__(self):
-        return self # will be rewritten
+        return self  # will be rewritten
 
     def accept(self, visitor):
         pass
@@ -59,7 +59,7 @@ class PlainText(Tex):
         super().__init__()
 
 
-def class_factory(name: str, inherit_from: Type=Function) -> Type:
+def class_factory(name: str, inherit_from: Type = Function) -> Type:
     class cls(inherit_from):
         _name = name
 
