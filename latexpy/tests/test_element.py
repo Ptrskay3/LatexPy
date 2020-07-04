@@ -3,7 +3,7 @@ import pytest
 from latexpy.core.element import Tex, CallableElement
 
 
-def test_tex_add():
+def test_tex_underscore_add():
 
     f = Tex()
     g = Tex()
@@ -17,3 +17,21 @@ def test_tex_add():
     f._add(h)
 
     assert f._children == [g, h]
+
+
+def test_tex_underscore_remove():
+
+    f = Tex()
+
+    g = Tex()
+    h = CallableElement()
+    j = CallableElement()
+
+    f._add(g)
+    f._add(h)
+
+    f._remove(g)
+    assert f._children == [h]
+
+    with pytest.raises(ValueError):
+        f._remove(j)
