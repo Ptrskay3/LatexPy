@@ -1,4 +1,4 @@
-from typing import Union, Callable
+from typing import Union, Callable, Type
 
 from latexpy.core.base import AbstractElement
 from latexpy.util.decorator import require_type
@@ -7,7 +7,6 @@ from latexpy.util.decorator import require_type
 class Tex(AbstractElement):
     """
     """
-
     def __init__(self):
         super().__init__()
         self._children = []
@@ -20,7 +19,7 @@ class Tex(AbstractElement):
         self._children.remove(child)
 
     def __iter__(self):
-        return self
+        return self # will be rewritten
 
     def accept(self, visitor):
         pass
@@ -55,10 +54,23 @@ class Function(CallableElement):
         super().__init__()
 
 
-class Package(Function):
-    _name = "usepackage"
-
-
 class PlainText(Tex):
     def __init__(self):
         super().__init__()
+
+
+def class_factory(name: str, inherit_from: Type=Function) -> Type:
+    class cls(inherit_from):
+        _name = name
+
+    cls.__name__ = name.title()
+    return cls
+
+
+# all the similar elements should be defined here
+
+Package = class_factory("package")
+Enumerate = class_factory("enumerate")
+Itemize = class_factory("itemize")
+Figure = class_factory("figure")
+Tabular = class_factory("tabular")
