@@ -69,7 +69,6 @@ def class_factory(name: str, inherit_from: Type = Function) -> Type:
 
 # all the similar elements should be defined here
 
-Package = class_factory("package")
 Enumerate = class_factory("enumerate")
 Itemize = class_factory("itemize")
 Figure = class_factory("figure")
