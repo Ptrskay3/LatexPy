@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import abc
 from collections.abc import Iterable
-from typing import Union, Iterator, Type, Callable, Iterable as _iterable
+from typing import Union, Iterator, Type, Callable, Any, Iterable as _iterable
 
 
 class AbstractElement(Iterable, abc.ABC):
