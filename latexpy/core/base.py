@@ -33,7 +33,7 @@ class AbstractElement(Iterable, abc.ABC):
         pass
 
 
-class AbstractVisitor():
+class AbstractVisitor:
     """
     """
 
@@ -57,7 +57,7 @@ class AbstractVisitor():
         return wrapper
 
 
-class AbstractVisitable():
+class AbstractVisitable:
 
     def accept(self, visitor: AbstractVisitor) -> None:
         visitor.visit(self)

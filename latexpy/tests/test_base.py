@@ -3,7 +3,8 @@ import pytest
 from latexpy.core.base import AbstractElement, AbstractVisitor
 
 
-@pytest.mark.parametrize("inherit_from", [AbstractElement, AbstractVisitor])
+# TODO : add more test cases
+@pytest.mark.parametrize("inherit_from", [AbstractElement])
 def test_baseclass(inherit_from):
     class FailClass(inherit_from):
         pass
@@ -14,7 +15,9 @@ def test_baseclass(inherit_from):
 
 def test_abstractvisitor():
     class WorkingClass(AbstractVisitor):
-        def visit(self, element):
+
+        @AbstractVisitor.collect_visitable(object)
+        def visit(self, attr):
             pass
 
     WorkingClass()
