@@ -56,9 +56,9 @@ def test_tex_remove(elements):
     f, g, h, j, k = elements
 
     f.add([g, h, j])
-    f.remove(g)
+    f.remove([g, j])
 
-    assert f._children == [h, j]
+    assert f._children == [h]
 
     with pytest.raises(ValueError):
         f._remove(k)
@@ -81,7 +81,33 @@ def test_tree_construction():
                     item1 = Item()
                     item1.dummy = 8
                     item2 = Item()
-                    item2.dummy = 9 
+                    item2.dummy = 9
+    
+    tex = Tex(autoadd=False)
+    tex.dummy = 1
+    documentclass = Documentclass(autoadd=False)
+    documentclass.dummy = 2
+    package = Package(autoadd=False)
+    package.dummy = 3
+    document = Document(autoadd=False)
+    document.dummy = 4
+    section = Section(autoadd=False)
+    section.dummy = 5
+    figure = Figure(autoadd=False)
+    figure.dummy = 6
+    itemize = Itemize(autoadd=False)
+    itemize.dummy = 7
+    item1 = Item(autoadd=False)
+    item1.dummy = 8
+    item2 = Item(autoadd=False)
+    item2.dummy = 9
+
+    tex.add([documentclass, package])
+    document.add(section)
+    section.add([figure, itemize])
+    itemize.add([item1, item2])
+
+    for 
 
 def test_tree_iter():
     pass

@@ -61,13 +61,13 @@ class Tex(AbstractElement):
         return self.prefix + '\n' + self.suffix
 
 class Options(Tex):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, autoadd):
+        super().__init__(autoadd)
 
 
 class SquareBracket(Options):
-    def __init__(self, arg):
-        super().__init__()
+    def __init__(self, autoadd):
+        super().__init__(autoadd)
 
     @property
     def prefix(self):
@@ -79,8 +79,8 @@ class SquareBracket(Options):
 
 
 class CurlyBracket(Options):
-    def __init__(self, arg):
-        super().__init__()
+    def __init__(self, autoadd):
+        super().__init__(autoadd)
 
     @property
     def prefix(self):
@@ -91,8 +91,8 @@ class CurlyBracket(Options):
         return "}"
 
 class Star(Options):
-    def __init__(self, arg):
-        super().__init__()
+    def __init__(self, autoadd=True):
+        super().__init__(autoadd)
 
     @property
     def prefix(self):
@@ -102,8 +102,8 @@ class CallableElement(Tex):
 
     _name = ""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, autoadd=True):
+        super().__init__(autoadd)
 
     @property
     def name(self):
@@ -120,8 +120,8 @@ class CallableElement(Tex):
 
 class Environment(CallableElement):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, autoadd=True):
+        super().__init__(autoadd)
 
     @property
     def prefix(self):
@@ -133,8 +133,8 @@ class Environment(CallableElement):
 
 
 class Function(CallableElement):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, autoadd=True):
+        super().__init__(autoadd)
 
     @property
     def prefix(self):
@@ -146,8 +146,8 @@ class Function(CallableElement):
     
 
 class PlainText(Tex):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, autoadd=True):
+        super().__init__(autoadd)
 
 
 class Section(Function):
