@@ -3,15 +3,18 @@ from typing import Type
 
 from latexpy.core.base import AbstractElement
 from latexpy.util.decorator import require_type
+from latexpy.core.iterator import PreorderIterator
 
 
 class Tex(AbstractElement):
     """
     """
     _parent = None
-    def __init__(self, autoadd=True):
+    def __init__(self, autoadd=False):
         super().__init__()
         self._children = []
+        if autoadd:
+            self.parent.add(self)
 
     @require_type(1, AbstractElement)
     def _add(self, child: AbstractElement) -> None:
@@ -29,7 +32,7 @@ class Tex(AbstractElement):
         self.parent = self._original_parent
 
     def __iter__(self):
-        pass # will be rewritten
+        yield from PreorderIterator(self)
 
     def accept(self, visitor):
         pass

@@ -3,7 +3,7 @@ import pytest
 from latexpy.core.iterator import PreorderIterator, PostorderIterator
 from latexpy.core.element import Tex
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def create_dummy_tree():
     class Dummy(Tex):
         def __init__(self, num):
@@ -23,15 +23,15 @@ def create_dummy_tree():
     dummy1.add([dummy2, dummy3])
     dummy2.add([dummy4, dummy5])
     dummy3.add([dummy6, dummy7])
-    return dummy1
+    return dummy1, Dummy
 
 def test_preorder_iterator(create_dummy_tree):
-    dummy = create_dummy_tree
+    dummy, _ = create_dummy_tree
     expected = [1, 2, 4, 5, 3, 6, 7]
     assert expected == [d.num for d in PreorderIterator(dummy)]
 
 
 def test_postorder_iterator(create_dummy_tree):
-    dummy = create_dummy_tree
+    dummy, _ = create_dummy_tree
     expected = [7, 6, 3, 5, 4, 2, 1]
     assert expected == [d.num for d in PostorderIterator(dummy)]

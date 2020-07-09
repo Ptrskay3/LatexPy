@@ -8,9 +8,9 @@ from latexpy.core.element import (Tex, CallableElement, Documentclass,
 def elements():
     f = Tex()
     g = Tex()
-    h = CallableElement()
-    j = CallableElement()
-    k = CallableElement()
+    h = CallableElement(autoadd=False)
+    j = CallableElement(autoadd=False)
+    k = CallableElement(autoadd=False)
     return f, g, h, j, k
 
 def test_tex_underscore_add(elements):
@@ -64,6 +64,7 @@ def test_tex_remove(elements):
         f._remove(k)
 
 def test_tree_construction():
+    expected = list(range(1, 10))
     with Tex() as tex:
         tex.dummy = 1
         documentclass = Documentclass()
@@ -82,7 +83,12 @@ def test_tree_construction():
                     item1.dummy = 8
                     item2 = Item()
                     item2.dummy = 9
-    
+
+        res = [a.dummy for a in tex]
+        assert expected == res
+
+def test_tree_construction_flat():
+    expected = list(range(1, 10))
     tex = Tex(autoadd=False)
     tex.dummy = 1
     documentclass = Documentclass(autoadd=False)
@@ -102,13 +108,29 @@ def test_tree_construction():
     item2 = Item(autoadd=False)
     item2.dummy = 9
 
-    tex.add([documentclass, package])
+    tex.add([documentclass, package, document])
     document.add(section)
     section.add([figure, itemize])
     itemize.add([item1, item2])
 
-    for 
+    assert expected == [a.dummy for a in tex]
 
 def test_tree_iter():
     pass
 
+
+def test_tex_iter():
+    class Dummy(Tex):
+        def __init__(self, num):
+            super().__init__()
+            self.num = num
+
+        def __str__(self):
+            return str(self.num)
+
+    tex = Dummy(1)
+    documentclass = Dummy(2)
+    package = Dummy(3)
+    tex.add([documentclass, package])
+
+    assert [1, 2, 3] == [t.num for t in tex]
