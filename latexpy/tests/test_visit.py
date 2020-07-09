@@ -23,11 +23,11 @@ def test_rename():
 
     class Korte(AbstractVisitor):
 
-        @AbstractVisitor.collect_visitable(Alma)
+        @AbstractVisitor.mark_visitable(Alma)
         def method(self, visitable):
             return "Alma"
 
-        @AbstractVisitor.collect_visitable(Dinnye)
+        @AbstractVisitor.mark_visitable(Dinnye)
         def method(self, visitable):
             return "Dinnye"
 

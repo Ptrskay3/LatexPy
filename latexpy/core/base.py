@@ -18,7 +18,30 @@ class AbstractElement(Iterable, abc.ABC):
     def add(self, children: Union[AbstractElement, Iterator]) -> None:
         """
         """
+        if isinstance(children, AbstractElement):
+            self._add(children)
+        elif isinstance(children, Iterable):
+            for child in children:
+                self._add(child)
+        else:
+            raise TypeError
+
+    @abc.abstractmethod
+    def _remove(self, child: AbstractElement) -> None:
+        """
+        """
         pass
+
+    def remove(self, children: Union[AbstractElement, Iterator]) -> None:
+        """
+        """
+        if isinstance(children, AbstractElement):
+            self._remove(children)
+        elif isinstance(children, Iterable):
+            for child in children:
+                self._remove(child)
+        else:
+            raise TypeError
 
     @abc.abstractmethod
     def accept(self, visitor: AbstractVisitor) -> None:
@@ -48,7 +71,7 @@ class AbstractVisitor:
         getattr(self, "_visit_" + type(visitable).__name__.lower())(visitable)
 
     @classmethod
-    def collect_visitable(cls, klass: Type) -> Callable:
+    def mark_visitable(cls, klass: Type) -> Callable:
         def wrapper(func: Callable) -> Any:
             val = getattr(AbstractVisitor, "_visit_functions", {})
             val.update({klass: func})

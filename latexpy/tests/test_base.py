@@ -16,7 +16,7 @@ def test_baseclass(inherit_from):
 def test_abstractvisitor():
     class WorkingClass(AbstractVisitor):
 
-        @AbstractVisitor.collect_visitable(object)
+        @AbstractVisitor.mark_visitable(object)
         def visit(self, attr):
             pass
 
@@ -35,6 +35,9 @@ def test_abstractelement():
             pass
 
         def __iter__(self):
+            pass
+
+        def _remove(self, child):
             pass
 
     WorkingClass()

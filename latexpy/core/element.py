@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Type
 
 from latexpy.core.base import AbstractElement
@@ -7,7 +8,8 @@ from latexpy.util.decorator import require_type
 class Tex(AbstractElement):
     """
     """
-    def __init__(self):
+    _parent = None
+    def __init__(self, autoadd=True):
         super().__init__()
         self._children = []
 
@@ -18,8 +20,16 @@ class Tex(AbstractElement):
     def _remove(self, child: AbstractElement) -> None:
         self._children.remove(child)
 
+    def __enter__(self):
+        self._original_parent = self.parent
+        self.parent = self
+        return self
+
+    def __exit__(self, type_, value, traceback):
+        self.parent = self._original_parent
+
     def __iter__(self):
-        return self  # will be rewritten
+        pass # will be rewritten
 
     def accept(self, visitor):
         pass
@@ -31,6 +41,62 @@ class Tex(AbstractElement):
     def children(self):
         return self._children
 
+    @property
+    def prefix(self):
+        return ""
+    
+    @property
+    def suffix(self):
+        return ""
+
+    @property
+    def parent(self):
+        return Tex._parent
+
+    @parent.setter
+    def parent(self, parent: Tex):
+        Tex._parent = parent
+
+    def __str__(self):
+        return self.prefix + '\n' + self.suffix
+
+class Options(Tex):
+    def __init__(self):
+        super().__init__()
+
+
+class SquareBracket(Options):
+    def __init__(self, arg):
+        super().__init__()
+
+    @property
+    def prefix(self):
+        return "["
+    
+    @property
+    def suffix(self):
+        return "]"
+
+
+class CurlyBracket(Options):
+    def __init__(self, arg):
+        super().__init__()
+
+    @property
+    def prefix(self):
+        return "{"
+    
+    @property
+    def suffix(self):
+        return "}"
+
+class Star(Options):
+    def __init__(self, arg):
+        super().__init__()
+
+    @property
+    def prefix(self):
+        return "*"
 
 class CallableElement(Tex):
 
@@ -43,33 +109,73 @@ class CallableElement(Tex):
     def name(self):
         return self._name
 
+    @property
+    def prefix(self):
+        return ""
+    
+    @property
+    def suffix(self):
+        return ""
+
 
 class Environment(CallableElement):
+
     def __init__(self):
         super().__init__()
+
+    @property
+    def prefix(self):
+        return r"\begin{{{}}}".format(self.name)
+    
+    @property
+    def suffix(self):
+        return r"\end{{{}}}".format(self.name)
 
 
 class Function(CallableElement):
     def __init__(self):
         super().__init__()
 
+    @property
+    def prefix(self):
+        return "\\" + self.name
+    
+    @property
+    def suffix(self):
+        return ""
+    
 
 class PlainText(Tex):
     def __init__(self):
         super().__init__()
 
 
-def class_factory(name: str, inherit_from: Type = Function) -> Type:
-    class cls(inherit_from):
-        _name = name
+class Section(Function):
+    _name = "section"
 
-    cls.__name__ = name.title()
-    return cls
+class Subsection(Function):
+    _name = "subsection"
 
+class Enumerate(Environment):
+    _name = "enumerate"
 
-# all the similar elements should be defined here
+class Itemize(Environment):
+    _name = "itemize"
 
-Enumerate = class_factory("enumerate")
-Itemize = class_factory("itemize")
-Figure = class_factory("figure")
-Tabular = class_factory("tabular")
+class Item(Function):
+    _name = "item"
+
+class Documentclass(Function):
+    _name = "documentclass"
+
+class Document(Environment):
+    _name = "document"
+    
+class Figure(Environment):
+    _name = "figure"
+
+class Tabular(Environment):
+    _name = "tabular"
+
+class Package(Function):
+    _name = "usepackage"
