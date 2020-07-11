@@ -15,8 +15,8 @@ class AbstractTexVisitor(AbstractVisitor):
                 )
 
 
-class DefaultChildIndentVisitor(AbstractTexVisitor):
-    tab="(TAB)"
+class DefaultChildrenIndentVisitor(AbstractTexVisitor):
+    tab = "(TAB)"
     defaults = {
         Tex: False,
         Star: False,
@@ -38,4 +38,3 @@ class DefaultChildIndentVisitor(AbstractTexVisitor):
         Options: False,
         Environment: False,
     }
-

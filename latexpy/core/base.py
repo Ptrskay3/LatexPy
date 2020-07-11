@@ -44,9 +44,6 @@ class AbstractElement(Iterable, abc.ABC):
         else:
             raise TypeError
 
-
-
-
     @property
     @abc.abstractmethod
     def children(self) -> _iterable:
@@ -79,7 +76,9 @@ class AbstractVisitor:
             delattr(AbstractVisitor, "_visit_functions")
 
     def visit(self, visitable: AbstractVisitable) -> Any:
-        return getattr(self, AbstractVisitor.get_function_name(type(visitable)))(visitable)
+        return getattr(self, AbstractVisitor.get_function_name(type(visitable)))(
+            visitable
+        )
 
     @classmethod
     def mark_visitable(cls, klass: Type) -> Callable:

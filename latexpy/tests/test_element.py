@@ -75,6 +75,7 @@ def test_tex_remove(elements):
     with pytest.raises(ValueError):
         f._remove(k)
 
+
 def test_tree_construction():
     expected = list(range(1, 10))
     with Tex() as tex:

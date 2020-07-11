@@ -39,7 +39,6 @@ class Tex(AbstractElement, AbstractVisitable):
     def __iter__(self):
         yield from PreorderIterator(self)
 
-
     @property
     def children(self):
         return self._children
