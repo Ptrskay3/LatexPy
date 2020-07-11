@@ -1,7 +1,7 @@
 from typing import Type, Set
 
 
-def upper_bound_inherit_tree(upper_bound_class:Type)->Set[Type]:
+def upper_bound_inherit_tree(upper_bound_class: Type) -> Set[Type]:
     classes = {upper_bound_class}
     work = [upper_bound_class]
     while work:

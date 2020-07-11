@@ -1,25 +1,41 @@
 from latexpy.core.base import AbstractVisitor
-from latexpy.core.element import Tex
+from latexpy.core.element import *
 from latexpy.util.misc import upper_bound_inherit_tree
+
 
 class AbstractTexVisitor(AbstractVisitor):
     def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__()
+        AbstractVisitor.__init_subclass__(**kwargs)
         defined_classes = upper_bound_inherit_tree(Tex)
         for defined_class in defined_classes:
-            if defined_class.__name__.lower()
+            if not hasattr(cls, AbstractVisitor.get_function_name(defined_class)):
+                raise ValueError(
+                    f"Must specify all default indents for {AbstractVisitor.get_function_name(defined_class)}"
+                )
 
 
 class DefaultChildIndentVisitor(AbstractTexVisitor):
-    defaults = {Tex:0,}
-
-    def __init__(self):
-        self.is_valid()
-
-    def is_valid(self):
-        defined_classes = upper_bound_inherit_tree(Tex)
-        for key, value in DefaultChildIndentVisitor.defaults.items():
-            defined_classes.pop(key)
-
-        if defined_classes:
-            raise ValueError("Must specify all default indents.")
+    tab="(TAB)"
+    defaults = {
+        Tex: False,
+        Star: False,
+        CallableElement: False,
+        CurlyBracket: False,
+        Enumerate: tab,
+        Subsection: "",
+        Section: "",
+        Documentclass: False,
+        Document: False,
+        SquareBracket: False,
+        Package: False,
+        Tabular: tab,
+        Item: False,
+        Figure: tab,
+        Itemize: tab,
+        Function: False,
+        PlainText: False,
+        Options: False,
+        Environment: False,
+    }
 

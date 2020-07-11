@@ -1,12 +1,15 @@
 from __future__ import annotations
+
+import abc
 from typing import Type
 
 from latexpy.core.base import AbstractElement, AbstractVisitable
 from latexpy.util.decorator import require_type
 from latexpy.core.iterator import PreorderIterator
+from latexpy.util.misc import upper_bound_inherit_tree
 
 
-class Tex(AbstractElement,AbstractVisitable):
+class Tex(AbstractElement, AbstractVisitable):
     """
     """
 
@@ -37,9 +40,6 @@ class Tex(AbstractElement,AbstractVisitable):
         yield from PreorderIterator(self)
 
 
-    def children_iterator(self):
-        return self.children
-
     @property
     def children(self):
         return self._children
@@ -61,7 +61,7 @@ class Tex(AbstractElement,AbstractVisitable):
         Tex._parent = parent
 
     def __str__(self):
-        return self.prefix  + self.suffix
+        return self.prefix + self.suffix
 
 
 class Options(Tex):
@@ -130,11 +130,11 @@ class Environment(CallableElement):
 
     @property
     def prefix(self):
-        return r"\begin{{{}}}".format(self.name)
+        return r"\begin{{{}}}".format(self.name) + "%\n"
 
     @property
     def suffix(self):
-        return r"\end{{{}}}".format(self.name)
+        return r"\end{{{}}}".format(self.name) + "%\n"
 
 
 class Function(CallableElement):
@@ -143,7 +143,7 @@ class Function(CallableElement):
 
     @property
     def prefix(self):
-        return "\\" + self.name
+        return "\\" + self.name + "%\n"
 
     @property
     def suffix(self):
@@ -193,3 +193,6 @@ class Tabular(Environment):
 
 class Package(Function):
     _name = "usepackage"
+
+
+__all__ = [cls.__name__ for cls in upper_bound_inherit_tree(Tex)]

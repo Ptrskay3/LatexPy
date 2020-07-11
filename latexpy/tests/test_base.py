@@ -30,7 +30,8 @@ def test_abstractelement():
         def accept(self, visitor):
             pass
 
-        def children_iterator(self):
+        @property
+        def children(self):
             pass
 
         def __iter__(self):

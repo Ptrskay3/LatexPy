@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import abc
 from collections.abc import Iterable
-from copy import copy, deepcopy
+from copy import copy
 from typing import Union, Iterator, Type, Callable, Any, Iterable as _iterable
 
 
@@ -44,14 +44,12 @@ class AbstractElement(Iterable, abc.ABC):
         else:
             raise TypeError
 
-    @abc.abstractmethod
-    def accept(self, visitor: AbstractVisitor) -> None:
-        """
-        """
-        pass
 
+
+
+    @property
     @abc.abstractmethod
-    def children_iterator(self) -> _iterable:
+    def children(self) -> _iterable:
         """
         """
         pass
@@ -62,8 +60,8 @@ class AbstractVisitor:
     """
 
     @staticmethod
-    def get_function_name(cls:Type):
-        return "_visit_" + type(cls).__name__.lower()
+    def get_function_name(cls: Type):
+        return "_visit_" + cls.__name__.lower()
 
     defaults: dict = {}
 
@@ -72,16 +70,16 @@ class AbstractVisitor:
         for key, value in copy(cls.defaults).items():
             setattr(
                 cls,
-                "_visit_" + key.__name__.lower(),
+                AbstractVisitor.get_function_name(key),
                 (lambda value: lambda self, visitable: value)(value),
             )
         if hasattr(AbstractVisitor, "_visit_functions"):
             for key, value in AbstractVisitor._visit_functions.items():
-                setattr(cls, "_visit_" + key.__name__.lower(), value)
+                setattr(cls, AbstractVisitor.get_function_name(key), value)
             delattr(AbstractVisitor, "_visit_functions")
 
-    def visit(self, visitable: AbstractVisitable) -> None:
-        getattr(self, "_visit_" + type(visitable).__name__.lower())(visitable)
+    def visit(self, visitable: AbstractVisitable) -> Any:
+        return getattr(self, AbstractVisitor.get_function_name(type(visitable)))(visitable)
 
     @classmethod
     def mark_visitable(cls, klass: Type) -> Callable:
@@ -95,5 +93,5 @@ class AbstractVisitor:
 
 
 class AbstractVisitable:
-    def accept(self, visitor: AbstractVisitor) -> None:
-        visitor.visit(self)
+    def accept(self, visitor: AbstractVisitor) -> Any:
+        return visitor.visit(self)
