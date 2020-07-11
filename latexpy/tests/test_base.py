@@ -15,7 +15,6 @@ def test_baseclass(inherit_from):
 
 def test_abstractvisitor():
     class WorkingClass(AbstractVisitor):
-
         @AbstractVisitor.mark_visitable(object)
         def visit(self, attr):
             pass

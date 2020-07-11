@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import abc
 from collections.abc import Iterable
+from copy import copy, deepcopy
 from typing import Union, Iterator, Type, Callable, Any, Iterable as _iterable
 
 
@@ -60,12 +61,24 @@ class AbstractVisitor:
     """
     """
 
+    @staticmethod
+    def get_function_name(cls:Type):
+        return "_visit_" + type(cls).__name__.lower()
+
+    defaults: dict = {}
+
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
-        for key, value in AbstractVisitor._visit_functions.items():
-            setattr(cls, "_visit_" + key.__name__.lower(), value)
-        delattr(AbstractVisitor, "_visit_functions")
-        
+        for key, value in copy(cls.defaults).items():
+            setattr(
+                cls,
+                "_visit_" + key.__name__.lower(),
+                (lambda value: lambda self, visitable: value)(value),
+            )
+        if hasattr(AbstractVisitor, "_visit_functions"):
+            for key, value in AbstractVisitor._visit_functions.items():
+                setattr(cls, "_visit_" + key.__name__.lower(), value)
+            delattr(AbstractVisitor, "_visit_functions")
 
     def visit(self, visitable: AbstractVisitable) -> None:
         getattr(self, "_visit_" + type(visitable).__name__.lower())(visitable)
@@ -77,10 +90,10 @@ class AbstractVisitor:
             val.update({klass: func})
             AbstractVisitor._visit_functions = val
             return func
+
         return wrapper
 
 
 class AbstractVisitable:
-
     def accept(self, visitor: AbstractVisitor) -> None:
         visitor.visit(self)

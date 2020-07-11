@@ -1,7 +1,16 @@
 import pytest
 
-from latexpy.core.element import (Tex, CallableElement, Documentclass,
-    Package, Document, Section, Subsection, Figure, Itemize, Item)
+from latexpy.core.element import (
+    Tex,
+    CallableElement,
+    Documentclass,
+    Package,
+    Document,
+    Section,
+    Figure,
+    Itemize,
+    Item,
+)
 
 
 @pytest.fixture()
@@ -12,6 +21,7 @@ def elements():
     j = CallableElement(autoadd=False)
     k = CallableElement(autoadd=False)
     return f, g, h, j, k
+
 
 def test_tex_underscore_add(elements):
 
@@ -40,6 +50,7 @@ def test_tex_add(elements):
 
     assert f._children == [g, j, h]
 
+
 def test_tex_underscore_remove(elements):
     f, g, h, j, _ = elements
 
@@ -52,6 +63,7 @@ def test_tex_underscore_remove(elements):
     with pytest.raises(ValueError):
         f._remove(j)
 
+
 def test_tex_remove(elements):
     f, g, h, j, k = elements
 
@@ -62,6 +74,7 @@ def test_tex_remove(elements):
 
     with pytest.raises(ValueError):
         f._remove(k)
+
 
 def test_tree_construction():
     expected = list(range(1, 10))
@@ -86,6 +99,7 @@ def test_tree_construction():
 
         res = [a.dummy for a in tex]
         assert expected == res
+
 
 def test_tree_construction_flat():
     expected = list(range(1, 10))
@@ -114,6 +128,7 @@ def test_tree_construction_flat():
     itemize.add([item1, item2])
 
     assert expected == [a.dummy for a in tex]
+
 
 def test_tree_iter():
     pass

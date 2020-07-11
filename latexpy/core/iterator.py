@@ -2,6 +2,7 @@ from collections.abc import Iterator
 
 from latexpy.core.base import AbstractElement
 
+
 class PreorderIterator(Iterator):
     def __init__(self, element: AbstractElement):
         super().__init__()
