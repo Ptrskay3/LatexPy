@@ -59,8 +59,4 @@ def test_codegen_primitive():
 
         codegen = CodeGen()
         codegen.generate(tex, visitor)
-        for i, char in enumerate(exp):
-            if char != str(codegen)[i]:
-                break
-        print(exp[:i], "\nEXP->", str(codegen)[i : i + 10], "\n->", exp[i : i + 10])
         assert str(codegen) == exp
