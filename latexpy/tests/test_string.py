@@ -10,3 +10,18 @@ def test_diff():
     assert same == ""
     assert end1 == ""
     assert end2 == "alma körte"
+
+    same, end1, end2 = diff("almaalma", "almaalma", silent=False)
+    assert same == "almaalma"
+    assert end1 == ""
+    assert end2 == ""
+
+    same, end1, end2 = diff("almaalm", "almaalma", silent=False)
+    assert same == "almaalm"
+    assert end1 == ""
+    assert end2 == "a"
+
+    same, end1, end2 = diff("almaalmaa", "almaalm", silent=False)
+    assert same == "almaalm"
+    assert end1 == "aa"
+    assert end2 == ""

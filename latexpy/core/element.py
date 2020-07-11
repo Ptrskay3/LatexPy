@@ -63,6 +63,41 @@ class Tex(AbstractElement, AbstractVisitable):
         return self.prefix + self.suffix
 
 
+class LatexCode(Tex):
+    def __init__(self, content="", autoadd=True):
+        super().__init__(autoadd=autoadd)
+        self.content = content
+
+    @property
+    def prefix(self):
+        return self.content
+
+
+class PlainText(Tex):
+
+    replace_chars = {
+        "\\": "\\textbackslash ",
+        "$": "\\$",
+        "%": "\\%",
+        "{": "\\{",
+        "_": "\\_",
+        "}": "\\}",
+        "&": "\\&",
+        "#": "\\#",
+        "<": "\\textless ",
+        ">": "\\textgreater ",
+        "|": "\\textbar "
+    }
+
+    def __init__(self, content="", autoadd=True):
+        super().__init__(autoadd=autoadd)
+        self.content = content
+
+    @property
+    def prefix(self):
+        return "".join(PlainText.replace_chars[char] if char in PlainText.replace_chars.keys() else char  for char in self.content)
+
+
 class Options(Tex):
     def __init__(self, autoadd):
         super().__init__(autoadd)
@@ -147,11 +182,6 @@ class Function(CallableElement):
     @property
     def suffix(self):
         return ""
-
-
-class PlainText(Tex):
-    def __init__(self, autoadd=True):
-        super().__init__(autoadd)
 
 
 class Section(Function):

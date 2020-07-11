@@ -1,16 +1,7 @@
 import pytest
 
-from latexpy.core.element import (
-    Tex,
-    CallableElement,
-    Documentclass,
-    Package,
-    Document,
-    Section,
-    Figure,
-    Itemize,
-    Item,
-)
+from latexpy.core.element import *
+from latexpy.util.string import diff
 
 
 @pytest.fixture()
@@ -149,3 +140,20 @@ def test_tex_iter():
     tex.add([documentclass, package])
 
     assert [1, 2, 3] == [t.num for t in tex]
+
+def test_latexcode():
+    content=r"\begin{enumerate}\item a \item $<|ß@&#|>$"
+    latexcode=LatexCode(content,autoadd=False)
+    assert latexcode.prefix == content
+    assert latexcode.suffix == ""
+
+def test_plaintext():
+    cnt=r"\begin{enumerate}\item a \item $<|@&#|>$"
+    expected = r"\textbackslash begin\{enumerate\}\textbackslash item a \textbackslash item \$\textless \textbar @\&\#\textbar \textgreater \$"
+    plaintext=PlainText(cnt,autoadd=False)
+    # print(plaintext.content)
+    # assert plaintext.prefix == expected
+    # assert plaintext.suffix == ""
+    diff(expected, plaintext.prefix)
+
+test_plaintext()
