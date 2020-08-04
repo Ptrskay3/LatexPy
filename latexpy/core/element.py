@@ -86,7 +86,7 @@ class PlainText(Tex):
         "#": "\\#",
         "<": "\\textless ",
         ">": "\\textgreater ",
-        "|": "\\textbar "
+        "|": "\\textbar ",
     }
 
     def __init__(self, content="", autoadd=True):
@@ -95,17 +95,23 @@ class PlainText(Tex):
 
     @property
     def prefix(self):
-        return "".join(PlainText.replace_chars[char] if char in PlainText.replace_chars.keys() else char for char in self.content)
+        return "".join(
+            PlainText.replace_chars[char]
+            if char in PlainText.replace_chars.keys()
+            else char
+            for char in self.content
+        )
 
 
 class Options(Tex):
-    def __init__(self, autoadd):
+    def __init__(self, autoadd=True):
         super().__init__(autoadd)
 
 
 class SquareBracket(Options):
-    def __init__(self, autoadd):
+    def __init__(self, autoadd=True):
         super().__init__(autoadd)
+        # todo
 
     @property
     def prefix(self):

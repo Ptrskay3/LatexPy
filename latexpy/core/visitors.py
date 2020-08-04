@@ -37,5 +37,5 @@ class DefaultChildrenIndentVisitor(AbstractTexVisitor):
         PlainText: False,
         Options: False,
         Environment: False,
-        LatexCode: False
+        LatexCode: False,
     }

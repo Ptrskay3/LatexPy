@@ -6,10 +6,10 @@ def diff(reference: str, sample: str, silent: bool = False):
             same += char1
         else:
             break
-    if same_index==len(reference)-1:
-        return same, reference[same_index+1:], sample[same_index+1:]
+    if same_index == len(reference) - 1:
+        return same, reference[same_index + 1 :], sample[same_index + 1 :]
     elif len(reference) > len(sample) and same_index == len(sample) - 1:
-        return same, reference[same_index+1:], ''
+        return same, reference[same_index + 1 :], ""
 
     end1, end2 = reference[same_index:], sample[same_index:]
     if end1.find("\n") != -1:
