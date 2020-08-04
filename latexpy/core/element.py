@@ -95,7 +95,7 @@ class PlainText(Tex):
 
     @property
     def prefix(self):
-        return "".join(PlainText.replace_chars[char] if char in PlainText.replace_chars.keys() else char  for char in self.content)
+        return "".join(PlainText.replace_chars[char] if char in PlainText.replace_chars.keys() else char for char in self.content)
 
 
 class Options(Tex):
